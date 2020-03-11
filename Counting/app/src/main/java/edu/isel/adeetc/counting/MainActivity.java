@@ -9,46 +9,69 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Counter counter;
+    private Counter counter1;
+    private Counter counter2;
 
     private void initializeView() {
         setContentView(R.layout.activity_main);
+        updateView();
         Log.v("CountingApp", "initializeView() ends");
     }
 
     private void initializeModel() {
-        counter = new Counter(0);
+        counter1 = new Counter(0);
+        counter2 = new Counter(0);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initializeView();
         initializeModel();
+        initializeView();
 
-        final TextView counterView = findViewById(R.id.counterView);
-        Log.v("CountingApp",
-                "Text on counterView is " + counterView.getText());
-
-        findViewById(R.id.incButton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.incButton1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("CountingApp", "Inc button clicked");
-                counter.increment();
-                counterView.setText(counter.toString());
+                counter1.increment();
+                updateView();
             }
         });
 
-        findViewById(R.id.decButton).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.decButton1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.v("CountingApp", "Dec button clicked");
-                counter.decrement();
-                counterView.setText(counter.toString());
+                counter1.decrement();
+                updateView();
+            }
+        });
+
+        findViewById(R.id.incButton2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counter2.increment();
+                updateView();
+            }
+        });
+
+        findViewById(R.id.decButton2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                counter2.decrement();
+                updateView();
             }
         });
 
         Log.v("CountingApp", "onCreate() ends");
+    }
+
+    private void updateView() {
+        final TextView counterView1 = findViewById(R.id.counterView1);
+        counterView1.setText(counter1.toString());
+        findViewById(R.id.decButton1).setEnabled(counter1.getValue() != 0);
+
+        final TextView counterView2 = findViewById(R.id.counterView2);
+        counterView2.setText(counter2.toString());
+        findViewById(R.id.decButton2).setEnabled(counter2.getValue() != 0);
     }
 }

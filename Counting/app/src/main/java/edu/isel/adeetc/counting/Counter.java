@@ -5,6 +5,8 @@ public class Counter {
     private int value;
 
     public Counter(int initialValue) {
+        if (initialValue < 0)
+            throw new IllegalArgumentException();
         value = initialValue;
     }
 
@@ -13,7 +15,8 @@ public class Counter {
     }
 
     public void decrement() {
-        value -= 1;
+        if (value > 0)
+            value -= 1;
     }
 
     public int getValue() {
