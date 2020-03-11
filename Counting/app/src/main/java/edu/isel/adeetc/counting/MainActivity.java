@@ -1,21 +1,33 @@
 package edu.isel.adeetc.counting;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class MainActivity extends AppCompatActivity {
+
+    private Counter counter;
+
+    private void initializeView() {
+        setContentView(R.layout.activity_main);
+        Log.v("CountingApp", "initializeView() ends");
+    }
+
+    private void initializeModel() {
+        counter = new Counter(0);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        TextView counterView = findViewById(R.id.counterView);
+        initializeView();
+        initializeModel();
+
+        final TextView counterView = findViewById(R.id.counterView);
         Log.v("CountingApp",
                 "Text on counterView is " + counterView.getText());
 
@@ -23,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v("CountingApp", "Inc button clicked");
+                counter.increment();
+                counterView.setText(counter.toString());
             }
         });
 
@@ -30,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.v("CountingApp", "Dec button clicked");
+                counter.decrement();
+                counterView.setText(counter.toString());
             }
         });
 
