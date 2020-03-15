@@ -39,5 +39,18 @@
   * [The counting application](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Counting)   
  
 ## Week 4
-### 16/03/2020 - Live coding session
+### 16/03/2020 - Inheritance, introduction
+* Principles behind code organization in GUI applications
+  * The Model-View-Controller pattern, revisited
+* Inheritance
+  * Concept and motivation
+    * [As a way to capture commonalities](https://docs.oracle.com/javase/tutorial/java/concepts/inheritance.html)
+    * As a framework extension mechanism
+  * Relation `extends` between two classes
+* Interfaces
+  * Concept and motivation 
+  * Relation `implements` between a class and an interface
+* Live coding session to demonstrate the presented subjects
+  * [The drawing application](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Draw)   
 
+### 16/03/2020 - Inheritance and Polimorphism, continued
