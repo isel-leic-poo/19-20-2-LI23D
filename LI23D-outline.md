@@ -53,4 +53,14 @@
 * Live coding session to demonstrate the presented subjects
   * [The drawing application](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Draw)   
 
-### 16/03/2020 - Inheritance and Polimorphism, continued
+### 18/03/2020 - Inheritance and Polimorphism, continued
+* The Java type system, revisited
+  * Interface, as a contract specification
+  * Polimorfism through inheritance, revisited
+* The Iterator pattern
+  * Concept and motivation
+  * Materialization on the Java platform
+    * On the Collection API
+    * On the foreach construction
+* Live coding session to demonstrate the presented subjects
+  * [The drawing application](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Draw)   
