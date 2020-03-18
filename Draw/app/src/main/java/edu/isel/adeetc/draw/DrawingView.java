@@ -12,29 +12,25 @@ import android.view.View;
 /**
  * View that displays the drawing area and its contents.
  */
-public class DrawingView extends View implements View.OnTouchListener {
+public class DrawingView extends View {
 
     /** The brush that will be used to paint. */
     private final Paint brush;
+
     /** The view's model */
     private final Drawing drawing;
-
-    private FreeStyleLine currentLine;
 
     /**
      * Initializes an instance with the given context (e.g. the hosting Activity)
      * @param context   The context to which the view will be bound.
      */
-    public DrawingView(Context context) {
+    public DrawingView(Context context, Drawing model) {
         super(context);
         brush = new Paint();
         brush.setColor(Color.RED);
         brush.setStrokeWidth(10);
         brush.setStyle(Paint.Style.STROKE);
-
-        drawing = new Drawing();
-        setOnTouchListener(this);
-        currentLine = null;
+        this.drawing = model;
     }
 
     /**
@@ -67,27 +63,5 @@ public class DrawingView extends View implements View.OnTouchListener {
             startPoint = endPoint;
         }
     }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                Log.v("DrawingApp", "ACTION_DOWN");
-                currentLine = new FreeStyleLine();
-                drawing.add(currentLine);
-                return true;
-
-            case MotionEvent.ACTION_UP:
-                Log.v("DrawingApp", "ACTION_UP");
-                currentLine = null;
-                return true;
-            case MotionEvent.ACTION_MOVE:
-                currentLine.addPoint(new Point((int) event.getX(), (int) event.getY()));
-                invalidate();
-
-        }
-        return false;
-    }
-
 
 }
