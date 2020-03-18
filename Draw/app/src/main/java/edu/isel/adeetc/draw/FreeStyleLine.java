@@ -1,7 +1,12 @@
 package edu.isel.adeetc.draw;
 
 import android.graphics.Point;
+
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
+import java.util.Iterator;
+
 
 /**
  * Represents free-style lines contained in the drawing.
@@ -10,7 +15,7 @@ import java.util.ArrayList;
  * by two points: the start point and the ending point. Ultimately, a free-style line is composed
  * of the set of points that define its line segments.
  */
-public class FreeStyleLine {
+public class FreeStyleLine implements Iterable<Point> {
 
     /** The set of points that comprise the free-style line */
     private final ArrayList<Point> points = new ArrayList<>();
@@ -24,12 +29,16 @@ public class FreeStyleLine {
     }
 
     /**
-     * Gets the points contained in this drawing.
-     * @return  the array with the free-style line's points.
+     * Gets the number of points in the current line.
+     * @return  The number of points in the line.
      */
-    public Point[] getPoints() {
-        final Point[] array = new Point[points.size()];
-        points.toArray(array);
-        return array;
+    public int getPointsCount() {
+        return points.size();
+    }
+
+    @NonNull
+    @Override
+    public Iterator<Point> iterator() {
+        return points.iterator();
     }
 }

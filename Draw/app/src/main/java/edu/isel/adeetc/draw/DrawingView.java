@@ -5,9 +5,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.Iterator;
 
 /**
  * View that displays the drawing area and its contents.
@@ -41,7 +41,7 @@ public class DrawingView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        for(FreeStyleLine line : drawing.getLines())
+        for(FreeStyleLine line : drawing)
             drawFreeStyleLine(canvas, line);
     }
 
@@ -52,13 +52,14 @@ public class DrawingView extends View {
      */
     private void drawFreeStyleLine(Canvas canvas, FreeStyleLine line) {
 
-        final Point[] points = line.getPoints();
-        if(points.length == 0)
+        if (line.getPointsCount() == 0)
             return;
 
-        Point startPoint = points[0];
-        for (int idx = 1; idx < points.length; ++idx) {
-            Point endPoint = points[idx];
+        final Iterator<Point> itr = line.iterator();
+        Point startPoint = itr.next();
+
+        while (itr.hasNext()) {
+            final Point endPoint = itr.next();
             canvas.drawLine(startPoint.x, startPoint.y, endPoint.x, endPoint.y, brush);
             startPoint = endPoint;
         }

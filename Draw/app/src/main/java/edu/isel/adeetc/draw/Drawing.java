@@ -1,12 +1,14 @@
 package edu.isel.adeetc.draw;
 
-import java.util.ArrayList;
+import androidx.annotation.NonNull;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Represents drawings composed of several free-style lines.
  */
-public class Drawing {
+public class Drawing implements Iterable<FreeStyleLine> {
 
     /** The lines in the drawing */
     private final ArrayList<FreeStyleLine> lines = new ArrayList<>();
@@ -20,12 +22,16 @@ public class Drawing {
     }
 
     /**
-     * Gets the lines contained in this drawing.
-     * @return  the array with the drawing's lines.
+     * Gets the number of lines in the current drawing.
+     * @return  The number of lines in the drawing.
      */
-    public FreeStyleLine[] getLines() {
-        final FreeStyleLine[] array = new FreeStyleLine[lines.size()];
-        lines.toArray(array);
-        return array;
+    public int getLinesCount() {
+        return lines.size();
+    }
+
+    @NonNull
+    @Override
+    public Iterator<FreeStyleLine> iterator() {
+        return lines.iterator();
     }
 }
