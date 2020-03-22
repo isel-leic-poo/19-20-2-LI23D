@@ -64,3 +64,13 @@
     * On the foreach construction
 * Live coding session to demonstrate the presented subjects
   * [The drawing application](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Draw)   
+
+### 23/03/2020 - Nested classes
+* The Java type system, revisited
+  * [Nested classes, concept and motivation](https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html)
+    * Inner classes
+    * Local classes
+    * Anonymous classes
+* Polimorfism through inheritance, continued
+* Live coding session to demonstrate the presented subjects
+  * [The drawing application](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Draw)   
