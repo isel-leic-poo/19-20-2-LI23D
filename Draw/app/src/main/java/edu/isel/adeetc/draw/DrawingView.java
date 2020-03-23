@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.Iterator;
@@ -18,18 +19,26 @@ public class DrawingView extends View {
     private final Paint brush;
 
     /** The view's model */
-    private final Drawing drawing;
+    private Drawing drawing;
 
     /**
      * Initializes an instance with the given context (e.g. the hosting Activity)
      * @param context   The context to which the view will be bound.
      */
-    public DrawingView(Context context, Drawing model) {
-        super(context);
+    public DrawingView(Context context, AttributeSet attrs) {
+        super(context, attrs);
         brush = new Paint();
         brush.setColor(Color.RED);
         brush.setStrokeWidth(10);
         brush.setStyle(Paint.Style.STROKE);
+        drawing = null;
+    }
+
+    /**
+     * Sets the view model.
+     * @param model the view's model.
+     */
+    public void setModel(Drawing model) {
         this.drawing = model;
     }
 
@@ -40,6 +49,9 @@ public class DrawingView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+
+        if (drawing == null)
+            return;
 
         for(FreeStyleLine line : drawing)
             drawFreeStyleLine(canvas, line);
