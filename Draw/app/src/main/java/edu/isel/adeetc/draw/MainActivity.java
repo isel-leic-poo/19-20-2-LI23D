@@ -9,33 +9,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
-class MainActivityMinionRedo implements View.OnClickListener {
-
-    private final MainActivity master;
-
-    MainActivityMinionRedo(MainActivity master) {
-        this.master = master;
-    }
-
-    @Override
-    public void onClick(View v) {
-        Log.v("DrawingApp", "Redo button clicked");
-    }
-}
-
-class MainActivityMinionUndo implements View.OnClickListener {
-
-    private final MainActivity master;
-
-    MainActivityMinionUndo(MainActivity master) {
-        this.master = master;
-    }
-
-    @Override
-    public void onClick(View v) {
-        Log.v("DrawingApp", "Undo button clicked");
-    }
-}
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
@@ -56,9 +29,23 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         undoButton = findViewById(R.id.undoButton);
         redoButton = findViewById(R.id.redoButton);
+        updateUI();
 
-        undoButton.setOnClickListener(new MainActivityMinionUndo(this));
-        redoButton.setOnClickListener(new MainActivityMinionRedo(this));
+        undoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                model.undo();
+                updateUI();
+            }
+        });
+
+        redoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                model.redo();
+                updateUI();
+            }
+        });
     }
 
     @Override
@@ -73,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             case MotionEvent.ACTION_UP:
                 Log.v("DrawingApp", "ACTION_UP");
                 currentLine = null;
+                updateUI();
                 return true;
             case MotionEvent.ACTION_MOVE:
                 currentLine.addPoint(new Point((int) event.getX(), (int) event.getY()));
@@ -80,5 +68,11 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 return true;
         }
         return false;
+    }
+
+    void updateUI() {
+        view.invalidate();
+        redoButton.setEnabled(model.hasHistory());
+        undoButton.setEnabled(model.getLinesCount() != 0);
     }
 }
