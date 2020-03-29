@@ -80,3 +80,15 @@
 * [Nested classes, continued](https://docs.oracle.com/javase/tutorial/java/javaOO/nested.html)
 * Live coding session to demonstrate the presented subjects
   * [The drawing application](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Draw)   
+
+## Week 6
+### 30/03/2020 - Design and implementation of interactive applications
+* Goal: Implementing the [Snake Game](https://www.google.com/search?q=play+snake)
+  * Considerations on the solution's design
+  * Basic animation principles: location, velocity and reflection
+  * Live coding session to demonstrate the subjects presented thusfar
+
+### 01/04/2020 - Design and implementation of interactive applications, continued
+* Goal: Implementing the [Snake Game](https://www.google.com/search?q=play+snake)
+  * The POO support library: classes Tile and TilePanel
+  * Live coding session
