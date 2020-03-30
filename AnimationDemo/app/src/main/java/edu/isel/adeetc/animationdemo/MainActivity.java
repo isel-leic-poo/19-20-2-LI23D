@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.time.temporal.TemporalUnit;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -21,10 +24,17 @@ public class MainActivity extends AppCompatActivity {
 
         final TimeAnimator animator = new TimeAnimator();
         animator.setTimeListener(new TimeAnimator.TimeListener() {
+            int elapsedTime = 0;
             @Override
             public void onTimeUpdate(TimeAnimator animation, long totalTime, long deltaTime) {
-                totalTimeView.setText(Long.toString(totalTime));
+                elapsedTime += deltaTime;
                 partialTimeView.setText(Long.toString(deltaTime));
+                
+                if (elapsedTime >= 250) {
+                    totalTimeView.setText(Long.toString(totalTime));
+                    elapsedTime = 0;
+
+                }
             }
         });
 
