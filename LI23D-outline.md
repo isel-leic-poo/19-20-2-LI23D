@@ -92,3 +92,5 @@
 * Goal: Implementing the [Snake Game](https://www.google.com/search?q=play+snake)
   * The POO support library: classes Tile and TilePanel
   * Live coding session
+* The Java type system, revisited
+  * [Enum Types](https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html)
