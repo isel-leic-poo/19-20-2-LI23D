@@ -1,16 +1,12 @@
 package edu.isel.adeetc.animationdemo;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.TimeAnimator;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.time.temporal.TemporalUnit;
-import java.util.Date;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
                 if (elapsedTime >= 250) {
                     totalTimeView.setText(Long.toString(totalTime));
                     elapsedTime = 0;
-
                 }
             }
         });
