@@ -94,3 +94,19 @@
   * Live coding session
 * The Java type system, revisited
   * [Enum Types](https://docs.oracle.com/javase/tutorial/java/javaOO/enum.html)
+
+## Week 7
+Easter break
+
+## Week 8
+### 15/04/2020 - Design and implementation of interactive applications, continued
+* Goal: Implementing the [Snake Game](https://www.google.com/search?q=play+snake), continued
+* Considerations on the design of interactive applications
+  * The Model-View-Controller pattern, revisited
+  * Comparison between imperative and functional programming styles
+* Exception based error handling
+  * Concept and motivation
+  * [Exceptions in Java](https://docs.oracle.com/javase/tutorial/essential/exceptions/)
+    * Checked and unchecked exceptions
+* Live coding session to demonstrate the subjects presented thusfar
+  * [Snake](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Snake)   
