@@ -7,6 +7,12 @@ import android.os.Bundle;
 
 import pt.isel.poo.tile.TilePanel;
 
+/**
+ * The game controller.
+ *
+ * TODO: (5) Add buttons that make the snake change direction
+ * TODO: (6) Stop movement when snake dies
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override

@@ -1,19 +1,15 @@
 package edu.isel.adeetc.snake;
 
-import android.util.Log;
-
 /**
  * Represents the snake in the game with the same name.
  *
- * TODO: document
+ * TODO: (3) The snake should remember where it's going
+ * TODO: (4) The snake should die when it collides with the arena's boundaries
  */
 public class Snake {
 
     private Location headPosition;
-
-    // TODO: This should be the arena itself
     private int arenaWidth, arenaHeight;
-
 
     public Snake(Location position, int arenaWidth, int arenaHeight) {
         headPosition = position;
@@ -22,7 +18,6 @@ public class Snake {
     }
 
     public void move(Direction direction) {
-        // TODO: Report error if the movement cannot be done
         headPosition = headPosition.add(direction);
     }
 
@@ -31,7 +26,7 @@ public class Snake {
     }
 
     public boolean canMove(Direction direction) {
-        Location newLocation = headPosition.add(direction);
+        final Location newLocation = headPosition.add(direction);
         return newLocation.x >= 0 && newLocation.x < arenaWidth &&
                 newLocation.y >= 0 && newLocation.y < arenaHeight;
     }
