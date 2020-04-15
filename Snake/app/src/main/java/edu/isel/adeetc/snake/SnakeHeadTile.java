@@ -16,12 +16,11 @@ class SnakeHeadTile implements Tile {
     public SnakeHeadTile() {
         brush = new Paint();
         brush.setStyle(Paint.Style.FILL_AND_STROKE);
-        brush.setColor(Color.RED);
+        brush.setColor(Color.GREEN);
     }
 
     @Override
     public void draw(Canvas canvas, int side) {
-        // TODO: (1) The snake's head should be displayed as a green square
         canvas.drawRect(4, 4, side-4, side-4, brush);
     }
 

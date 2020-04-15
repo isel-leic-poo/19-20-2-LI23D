@@ -2,32 +2,49 @@ package edu.isel.adeetc.snake;
 
 /**
  * Represents the snake in the game with the same name.
- *
- * TODO: (3) The snake should remember where it's going
- * TODO: (4) The snake should die when it collides with the arena's boundaries
  */
 public class Snake {
 
     private Location headPosition;
     private int arenaWidth, arenaHeight;
+    private Direction currentDirection;
+    private boolean isDead;
 
-    public Snake(Location position, int arenaWidth, int arenaHeight) {
+    private boolean canMove(Direction direction) {
+        final Location newLocation = headPosition.add(direction);
+        return newLocation.x >= 0 && newLocation.x < arenaWidth &&
+                newLocation.y >= 0 && newLocation.y < arenaHeight;
+    }
+
+    public Snake(Location position, Direction initialDirection, int arenaWidth, int arenaHeight) {
         headPosition = position;
         this.arenaWidth = arenaWidth;
         this.arenaHeight = arenaHeight;
+        this.currentDirection = initialDirection;
+        this.isDead = false;
     }
 
-    public void move(Direction direction) {
-        headPosition = headPosition.add(direction);
+    public void move() {
+        if (isDead)
+            throw new IllegalStateException();
+
+        if (canMove(currentDirection)) {
+            headPosition = headPosition.add(currentDirection);
+        }
+        else {
+            isDead = true;
+        }
     }
 
     public Location getHeadLocation() {
         return headPosition;
     }
 
-    public boolean canMove(Direction direction) {
-        final Location newLocation = headPosition.add(direction);
-        return newLocation.x >= 0 && newLocation.x < arenaWidth &&
-                newLocation.y >= 0 && newLocation.y < arenaHeight;
+    public void changeDirection(Direction newDirection) {
+        currentDirection = newDirection;
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 }
