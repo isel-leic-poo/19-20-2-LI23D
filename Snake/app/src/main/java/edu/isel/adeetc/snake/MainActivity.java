@@ -1,11 +1,15 @@
 package edu.isel.adeetc.snake;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.animation.TimeAnimator;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import edu.isel.adeetc.snake.model.Board;
+import edu.isel.adeetc.snake.model.Direction;
+import edu.isel.adeetc.snake.model.Location;
+import edu.isel.adeetc.snake.view.BoardView;
 import pt.isel.poo.tile.TilePanel;
 
 /**
@@ -19,14 +23,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final TilePanel panel = findViewById(R.id.boardView);
-        final Snake snake = new Snake(new Location(0, 0), Direction.SOUTH,
-                panel.getWidthInTiles(), panel.getHeightInTiles());
-        final BoardView board = new BoardView(panel, snake);
+        final Board board = new Board(panel.getWidthInTiles(), panel.getHeightInTiles());
+        final BoardView boardView = new BoardView(panel, board);
 
         final View.OnClickListener listener = new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // TODO: Handle event according to its source
+            public void onClick(View source) {
+                switch (source.getId()) {
+                    case R.id.upButton: board.changeSnakeDirection(Direction.NORTH); break;
+                    case R.id.downButton: board.changeSnakeDirection(Direction.SOUTH); break;
+                    case R.id.leftButton: board.changeSnakeDirection(Direction.WEST); break;
+                    case R.id.rightButton: board.changeSnakeDirection(Direction.EAST); break;
+                }
             }
         };
 
@@ -38,14 +46,14 @@ public class MainActivity extends AppCompatActivity {
         final TimeAnimator animator = new TimeAnimator();
         animator.setTimeListener(new TimeAnimator.TimeListener() {
             int elapsedTime = 0;
+            int interval = 350;
             @Override
             public void onTimeUpdate(TimeAnimator animation, long totalTime, long deltaTime) {
-                if (!snake.isDead()) {
-                    if (elapsedTime >= 1000) {
+                if (!board.isSnakeDead()) {
+                    if (elapsedTime >= interval) {
                         elapsedTime = 0;
-                        Location prev = snake.getHeadLocation();
-                        snake.move();
-                        board.update(prev);
+                        board.doSnakeMove();
+                        boardView.update();
                     }
                     else {
                         elapsedTime += deltaTime;

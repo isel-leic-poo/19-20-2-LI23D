@@ -1,4 +1,4 @@
-package edu.isel.adeetc.snake;
+package edu.isel.adeetc.snake.model;
 
 /**
  * Represents a position in the board game.

@@ -1,4 +1,4 @@
-package edu.isel.adeetc.snake;
+package edu.isel.adeetc.snake.view;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,21 +7,21 @@ import android.graphics.Paint;
 import pt.isel.poo.tile.Tile;
 
 /**
- * Tile used to display the snake's head.
+ * Tile used to display an apple.
  */
-class SnakeHeadTile implements Tile {
+class AppleTile implements Tile {
 
     private final Paint brush;
 
-    public SnakeHeadTile() {
+    public AppleTile() {
         brush = new Paint();
         brush.setStyle(Paint.Style.FILL_AND_STROKE);
-        brush.setColor(Color.GREEN);
+        brush.setColor(Color.RED);
     }
 
     @Override
     public void draw(Canvas canvas, int side) {
-        canvas.drawRect(4, 4, side-4, side-4, brush);
+        canvas.drawCircle(side / 2f, side / 2f, (side / 2f) -4, brush);
     }
 
     @Override

@@ -1,9 +1,9 @@
-package edu.isel.adeetc.snake;
+package edu.isel.adeetc.snake.model;
 
 /**
  * Represents the possible movement directions.
  */
-enum Direction {
+public enum Direction {
 
     NORTH(0, -1),
     SOUTH(0, 1),
