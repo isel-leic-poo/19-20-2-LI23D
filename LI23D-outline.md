@@ -110,3 +110,20 @@ Easter break
     * Checked and unchecked exceptions
 * Live coding session to demonstrate the subjects presented thusfar
   * [Snake](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Snake)   
+
+## Week 9
+### 20/04/2020 - Design and implementation of interactive applications, continued
+* Goal: Implementing the [Snake Game](https://www.google.com/search?q=play+snake), continued
+* Considerations on the design of interactive applications
+  * The Model-View-Controller pattern, revisited
+  * Design anomaly: [circular dependencies](https://en.wikipedia.org/wiki/Circular_dependency)
+    * Causes and solutions
+    * Dependency inversion
+    * The observer pattern, revisited
+* The [Java Collections framework](https://docs.oracle.com/javase/tutorial/collections/index.html): introduction
+  * Sequential and associative containers
+* Live coding session to demonstrate the subjects presented thusfar
+  * [Snake](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Snake)   
+
+### 22/04/2020 - Practical class
+* Goal: [Work assignment 1](https://1920moodle.isel.pt/mod/assign/view.php?id=109594)

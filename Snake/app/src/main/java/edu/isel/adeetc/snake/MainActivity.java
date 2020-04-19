@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import edu.isel.adeetc.snake.model.Board;
 import edu.isel.adeetc.snake.model.Direction;
-import edu.isel.adeetc.snake.model.Location;
 import edu.isel.adeetc.snake.view.BoardView;
 import pt.isel.poo.tile.TilePanel;
 
@@ -26,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
         final Board board = new Board(panel.getWidthInTiles(), panel.getHeightInTiles());
         final BoardView boardView = new BoardView(panel, board);
 
+        // TODO: Interact directly with the snake, thereby increasing readability
+        // TODO: Use an associative container to get rid of the switch case
         final View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View source) {
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
             int interval = 350;
             @Override
             public void onTimeUpdate(TimeAnimator animation, long totalTime, long deltaTime) {
+                // TODO: Interact directly with the snake, thereby increasing readability
                 if (!board.isSnakeDead()) {
                     if (elapsedTime >= interval) {
                         elapsedTime = 0;

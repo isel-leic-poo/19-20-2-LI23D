@@ -9,6 +9,11 @@ public class Snake extends BoardElement {
     private Direction currentDirection;
     private boolean isDead;
 
+    /**
+     * Checks whether the snake can move in the given direction.
+     * @param direction The direction to where the movement is to take place.
+     * @return true if the move can be made, false otherwise.
+     */
     private boolean canMove(Direction direction) {
         final Location newLocation = position.add(direction);
         return newLocation.x >= 0 && newLocation.x < arenaWidth &&
@@ -23,26 +28,32 @@ public class Snake extends BoardElement {
         this.isDead = false;
     }
 
+    /**
+     * Moves the snake in the direction it is currently moving.
+     */
     public void move() {
         if (isDead)
             throw new IllegalStateException();
-
-        if (canMove(currentDirection)) {
-            position = position.add(currentDirection);
-        }
-        else {
-            isDead = true;
-        }
+        if (canMove(currentDirection)) position = position.add(currentDirection);
+        else isDead = true;
     }
 
     public Location getHeadLocation() {
         return getPosition();
     }
 
+    /**
+     * Changes the snake movement direction.
+     * @param newDirection  the new movement direction.
+     */
     public void changeDirection(Direction newDirection) {
         currentDirection = newDirection;
     }
 
+    /**
+     * Gets a boolean value indicating whether the snake is dead or not.
+     * @return true if the snake is dead, false otherwise.
+     */
     public boolean isDead() {
         return isDead;
     }
