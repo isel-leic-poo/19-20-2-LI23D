@@ -26,7 +26,7 @@ public class Board {
     }
 
     private void initSnake() {
-        snake = new Snake(new Location(0, 0), Direction.SOUTH, arenaWidth, arenaHeight);
+        snake = new Snake(new Location(0, 0), Direction.SOUTH, arenaWidth, arenaHeight, this);
         elements[0][0] = snake;
     }
 
@@ -41,10 +41,17 @@ public class Board {
         elements = new BoardElement[width][height];
         initSnake();
         initApple();
+        snake.addMovementListener(new Snake.MovementListener() {
+            @Override
+            public void snakeHasMoved(Location oldPosition, Location newPosition) {
+                elements[oldPosition.x][oldPosition.y] = null;
+                elements[newPosition.x][newPosition.y] = snake;
+            }
+        });
     }
     /**
      * Gets the board element at the given position
-     * @param x the horizontal ccordinate
+     * @param x the horizontal coordinate
      * @param y the vertical coordinate
      * @return  The board element at the specified position, or null
      */
@@ -52,19 +59,11 @@ public class Board {
         return elements[x][y];
     }
 
-    // TODO: The following operations belong to the snake.
-    public void changeSnakeDirection(Direction newDirection) {
-        snake.changeDirection(newDirection);
-    }
-
-    public void doSnakeMove() {
-        Location prevPosition = snake.getPosition();
-        snake.move();
-        elements[prevPosition.x][prevPosition.y] = null;
-        elements[snake.getPosition().x][snake.getPosition().y] = snake;
-    }
-
-    public boolean isSnakeDead() {
-        return snake.isDead();
+    /**
+     * Gets the snake instance.
+     * @return  the snake instance.
+     */
+    public Snake getSnake() {
+        return snake;
     }
 }

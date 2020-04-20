@@ -1,13 +1,24 @@
 package edu.isel.adeetc.snake.model;
 
+import java.util.ArrayList;
+
 /**
  * Represents the snake in the game with the same name.
  */
 public class Snake extends BoardElement {
 
+    /**
+     * Contract to be supported by snake movement listeners.
+     */
+    interface MovementListener {
+        void snakeHasMoved(Location oldPosition, Location newPosition);
+    }
+
     private int arenaWidth, arenaHeight;
     private Direction currentDirection;
     private boolean isDead;
+
+    private ArrayList<MovementListener> listeners;
 
     /**
      * Checks whether the snake can move in the given direction.
@@ -20,12 +31,13 @@ public class Snake extends BoardElement {
                 newLocation.y >= 0 && newLocation.y < arenaHeight;
     }
 
-    public Snake(Location position, Direction initialDirection, int arenaWidth, int arenaHeight) {
+    public Snake(Location position, Direction initialDirection, int arenaWidth, int arenaHeight, Board board) {
         super(position);
         this.arenaWidth = arenaWidth;
         this.arenaHeight = arenaHeight;
         this.currentDirection = initialDirection;
         this.isDead = false;
+        this.listeners = new ArrayList<>();
     }
 
     /**
@@ -34,7 +46,13 @@ public class Snake extends BoardElement {
     public void move() {
         if (isDead)
             throw new IllegalStateException();
-        if (canMove(currentDirection)) position = position.add(currentDirection);
+        if (canMove(currentDirection)) {
+            Location oldPosition = position;
+            position = position.add(currentDirection);
+            for (MovementListener listener : listeners) {
+                listener.snakeHasMoved(oldPosition, position);
+            }
+        }
         else isDead = true;
     }
 
@@ -57,4 +75,21 @@ public class Snake extends BoardElement {
     public boolean isDead() {
         return isDead;
     }
+
+    /**
+     * Registers the given listener to receive snake movement events
+     * @param listener  the listener to be registered
+     */
+    public void addMovementListener(MovementListener listener) {
+        listeners.add(listener);
+    }
+
+    /**
+     * Unregisters the given listener from receiving snake movement events
+     * @param listener  the listener to be unregistered
+     */
+    public void removeMovementListener(MovementListener listener) {
+        listeners.remove(listener);
+    }
+
 }

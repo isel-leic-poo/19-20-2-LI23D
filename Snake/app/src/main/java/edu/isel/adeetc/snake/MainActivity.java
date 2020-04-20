@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import edu.isel.adeetc.snake.model.Board;
 import edu.isel.adeetc.snake.model.Direction;
+import edu.isel.adeetc.snake.model.Snake;
 import edu.isel.adeetc.snake.view.BoardView;
 import pt.isel.poo.tile.TilePanel;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         final TilePanel panel = findViewById(R.id.boardView);
         final Board board = new Board(panel.getWidthInTiles(), panel.getHeightInTiles());
         final BoardView boardView = new BoardView(panel, board);
+        final Snake snake = board.getSnake();
 
         // TODO: Interact directly with the snake, thereby increasing readability
         // TODO: Use an associative container to get rid of the switch case
@@ -31,10 +33,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View source) {
                 switch (source.getId()) {
-                    case R.id.upButton: board.changeSnakeDirection(Direction.NORTH); break;
-                    case R.id.downButton: board.changeSnakeDirection(Direction.SOUTH); break;
-                    case R.id.leftButton: board.changeSnakeDirection(Direction.WEST); break;
-                    case R.id.rightButton: board.changeSnakeDirection(Direction.EAST); break;
+                    case R.id.upButton: snake.changeDirection(Direction.NORTH); break;
+                    case R.id.downButton: snake.changeDirection(Direction.SOUTH); break;
+                    case R.id.leftButton: snake.changeDirection(Direction.WEST); break;
+                    case R.id.rightButton: snake.changeDirection(Direction.EAST); break;
                 }
             }
         };
@@ -51,10 +53,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTimeUpdate(TimeAnimator animation, long totalTime, long deltaTime) {
                 // TODO: Interact directly with the snake, thereby increasing readability
-                if (!board.isSnakeDead()) {
+                if (!snake.isDead()) {
                     if (elapsedTime >= interval) {
                         elapsedTime = 0;
-                        board.doSnakeMove();
+                        snake.move();
                         boardView.update();
                     }
                     else {
