@@ -24,6 +24,7 @@ public class BoardView {
     public void update() {
         // TODO: only change what actually has changed
         // Snake should generate motion events bearing the affected locations
+        // What about the board generating change events?
         for(int x = 0; x < board.arenaWidth; ++x) {
             for(int y = 0; y < board.arenaHeight; ++y) {
                 final BoardElement element = board.getElementAt(x, y);

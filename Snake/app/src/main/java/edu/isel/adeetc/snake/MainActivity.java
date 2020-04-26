@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
         final BoardView boardView = new BoardView(panel, board);
         final Snake snake = board.getSnake();
 
-        // TODO: Interact directly with the snake, thereby increasing readability
         // TODO: Use an associative container to get rid of the switch case
         final View.OnClickListener listener = new View.OnClickListener() {
             @Override
@@ -52,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
             int interval = 350;
             @Override
             public void onTimeUpdate(TimeAnimator animation, long totalTime, long deltaTime) {
-                // TODO: Interact directly with the snake, thereby increasing readability
                 if (!snake.isDead()) {
                     if (elapsedTime >= interval) {
                         elapsedTime = 0;
