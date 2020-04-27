@@ -6,6 +6,9 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import edu.isel.adeetc.snake.model.Board;
 import edu.isel.adeetc.snake.model.Direction;
 import edu.isel.adeetc.snake.model.Snake;
@@ -17,6 +20,15 @@ import pt.isel.poo.tile.TilePanel;
  */
 public class MainActivity extends AppCompatActivity {
 
+    private final Map<Integer, Direction> directions = new HashMap<>();
+
+    {
+        directions.put(R.id.upButton, Direction.NORTH);
+        directions.put(R.id.downButton, Direction.SOUTH);
+        directions.put(R.id.leftButton, Direction.WEST);
+        directions.put(R.id.rightButton, Direction.EAST);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,19 +36,14 @@ public class MainActivity extends AppCompatActivity {
 
         final TilePanel panel = findViewById(R.id.boardView);
         final Board board = new Board(panel.getWidthInTiles(), panel.getHeightInTiles());
-        final BoardView boardView = new BoardView(panel, board);
         final Snake snake = board.getSnake();
+        // A strange looking line of code... The imperative ways :-/
+        new BoardView(panel, board);
 
-        // TODO: Use an associative container to get rid of the switch case
         final View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View source) {
-                switch (source.getId()) {
-                    case R.id.upButton: snake.changeDirection(Direction.NORTH); break;
-                    case R.id.downButton: snake.changeDirection(Direction.SOUTH); break;
-                    case R.id.leftButton: snake.changeDirection(Direction.WEST); break;
-                    case R.id.rightButton: snake.changeDirection(Direction.EAST); break;
-                }
+                snake.changeDirection(directions.get(source.getId()));
             }
         };
 
@@ -55,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                     if (elapsedTime >= interval) {
                         elapsedTime = 0;
                         snake.move();
-                        boardView.update();
                     }
                     else {
                         elapsedTime += deltaTime;
