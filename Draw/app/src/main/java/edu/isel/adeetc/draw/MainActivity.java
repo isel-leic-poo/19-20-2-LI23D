@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
@@ -15,7 +16,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private Drawing model;
     private DrawingView view;
     private FreeStyleLine currentLine;
-    private Button undoButton, redoButton;
+    private ImageButton undoButton, redoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

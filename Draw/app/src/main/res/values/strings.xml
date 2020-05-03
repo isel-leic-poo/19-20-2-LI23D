@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Draw</string>
+    <string name="undo">Undo</string>
+    <string name="redo">Redo</string>
+    <string name="clear">Clear</string>
+    <string name="load">Load</string>
+    <string name="save">Save</string>
 </resources>

@@ -27,19 +27,42 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/undoButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:layout_weight="1"
-            android:text="Undo" />
+            app:srcCompat="@drawable/ic_undo_black_18dp"
+            android:contentDescription="@string/undo" />
 
-        <Button
+        <ImageButton
             android:id="@+id/redoButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="64dp"
             android:layout_weight="1"
-            android:text="Redo" />
+            app:srcCompat="@drawable/ic_redo_black_18dp"
+            android:contentDescription="@string/redo" />
+        <ImageButton
+            android:id="@+id/clearButton"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/clear"
+            app:srcCompat="@drawable/ic_clear_black_18dp"/>
+        <ImageButton
+            android:id="@+id/loadButton"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/load"
+            app:srcCompat="@drawable/ic_input_black_18dp" />
+        <ImageButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="64dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_save_black_18dp"
+            android:contentDescription="@string/save" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
