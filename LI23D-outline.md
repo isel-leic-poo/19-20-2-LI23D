@@ -136,3 +136,16 @@ Easter break
 
 ### 29/04/2020 - Practical class
 * Goal: [Work assignment 1](https://1920moodle.isel.pt/mod/assign/view.php?id=109594)
+
+## Week 11
+### 04/05/2020 - Java I/O, overview
+* Goal: Implementing persistent storage of drawings on the Draw application
+  * [Java I/O using streams](https://docs.oracle.com/javase/tutorial/essential/io/streams.html)
+  * Revisiting fundamental Object-Oriented concepts
+    * Variables, values and objects
+    * Classes and interfaces
+    * Encapsulation, inheritance and polymorphism
+  * The Model-View-Controller pattern, revisited
+  * The Observer pattern, revisited
+* Live coding session to demonstrate the subjects presented thusfar
+  * [Draw](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Draw)   
