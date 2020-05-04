@@ -2,8 +2,10 @@ package edu.isel.adeetc.draw;
 
 import androidx.annotation.NonNull;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 
 /**
  * Represents drawings composed of several free-style lines.
@@ -15,6 +17,15 @@ public class Drawing implements Iterable<FreeStyleLine> {
 
     /** The lines that where removed from the drawing */
     private final ArrayList<FreeStyleLine> history = new ArrayList<>();
+
+    public static Drawing createFrom(Scanner input) {
+        Drawing newDrawing = new Drawing();
+        FreeStyleLine newLine = null;
+        while((newLine = FreeStyleLine.createFrom(input)) != null) {
+            newDrawing.add(newLine);
+        }
+        return newDrawing;
+    }
 
     /**
      * Adds the given line to the current drawing.
@@ -62,5 +73,11 @@ public class Drawing implements Iterable<FreeStyleLine> {
 
     public boolean hasHistory() {
         return history.size() != 0;
+    }
+
+    public void save(PrintStream output) {
+        for (FreeStyleLine line : lines) {
+            line.save(output);
+        }
     }
 }

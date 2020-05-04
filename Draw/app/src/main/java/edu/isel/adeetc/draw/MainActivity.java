@@ -1,18 +1,23 @@
 package edu.isel.adeetc.draw;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.util.Scanner;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
+    public static final String FILE = "Data.txt";
     private Drawing model;
     private DrawingView view;
     private FreeStyleLine currentLine;
@@ -31,6 +36,41 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         undoButton = findViewById(R.id.undoButton);
         redoButton = findViewById(R.id.redoButton);
         updateUI();
+
+        findViewById(R.id.clearButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view.setModel(model = new Drawing());
+                updateUI();
+            }
+        });
+
+        findViewById(R.id.loadButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: Create model instances from the external representation
+                try (Scanner input = new Scanner(openFileInput(FILE))) {
+                    model = Drawing.createFrom(input);
+                    view.setModel(model);
+                    updateUI();
+                } catch (FileNotFoundException e) {
+                    // TODO: Error handling for real
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try (PrintStream output = new PrintStream(openFileOutput(FILE, MODE_PRIVATE))) {
+                    model.save(output);
+                } catch (FileNotFoundException e) {
+                    // TODO: Error handling for real
+                    e.printStackTrace();
+                }
+            }
+        });
 
         undoButton.setOnClickListener(new View.OnClickListener() {
             @Override
