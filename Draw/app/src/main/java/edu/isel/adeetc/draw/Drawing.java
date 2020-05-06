@@ -12,6 +12,26 @@ import java.util.Scanner;
  */
 public class Drawing implements Iterable<FreeStyleLine> {
 
+
+    /**
+     * Contract to be supported for receiving drawing change events.
+     */
+    public interface OnChangeListener {
+        void onChange(Drawing source);
+    }
+
+    private OnChangeListener listener;
+
+    public void setListener(OnChangeListener listener) {
+        this.listener = listener;
+    }
+
+    private void fireOnChangeEvent() {
+        if (listener != null) {
+            listener.onChange(this);
+        }
+    }
+
     /** The lines in the drawing */
     private final ArrayList<FreeStyleLine> lines = new ArrayList<>();
 
@@ -20,6 +40,13 @@ public class Drawing implements Iterable<FreeStyleLine> {
 
     public static Drawing createFrom(Scanner input) {
         Drawing newDrawing = new Drawing();
+        // For reference
+//        while(true) {
+//            FreeStyleLine newLine = FreeStyleLine.createFrom(input);
+//            if (newLine == null)
+//                return newDrawing;
+//            newDrawing.add(newLine);
+//        }
         FreeStyleLine newLine = null;
         while((newLine = FreeStyleLine.createFrom(input)) != null) {
             newDrawing.add(newLine);
@@ -34,6 +61,7 @@ public class Drawing implements Iterable<FreeStyleLine> {
     public void add(FreeStyleLine line) {
         lines.add(line);
         history.clear();
+        fireOnChangeEvent();
     }
 
     /**
@@ -55,6 +83,7 @@ public class Drawing implements Iterable<FreeStyleLine> {
      */
     public void undo() {
         moveLine(lines, history);
+        fireOnChangeEvent();
     }
 
     /**
@@ -62,6 +91,7 @@ public class Drawing implements Iterable<FreeStyleLine> {
      */
     public void redo() {
         moveLine(history, lines);
+        fireOnChangeEvent();
     }
 
     private void moveLine(ArrayList<FreeStyleLine> from, ArrayList<FreeStyleLine> to) {

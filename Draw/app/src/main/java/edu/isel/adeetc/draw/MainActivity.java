@@ -10,7 +10,6 @@ import android.widget.ImageButton;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
@@ -65,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             public void onClick(View v) {
                 try (PrintStream output = new PrintStream(openFileOutput(FILE, MODE_PRIVATE))) {
                     model.save(output);
+                    // For reference:
+                    // model.save(System.out);
                 } catch (FileNotFoundException e) {
                     // TODO: Error handling for real
                     e.printStackTrace();
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             @Override
             public void onClick(View v) {
                 model.undo();
-                updateUI();
             }
         });
 
@@ -84,6 +84,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             @Override
             public void onClick(View v) {
                 model.redo();
+            }
+        });
+
+        model.setListener(new Drawing.OnChangeListener() {
+            @Override
+            public void onChange(Drawing source) {
                 updateUI();
             }
         });

@@ -69,7 +69,8 @@ public class FreeStyleLine implements Iterable<Point> {
      * @param output    The stream to where the data is to be sent.
      */
     public void save(PrintStream output) {
-        //count x0 y0 x1 y1 ... xn yn
+        // count x0 y0 x1 y1 ... xn yn
+        // where n = count -1
         output.print(getPointsCount());
         for (Point p : points) {
             output.printf(" %d %d", p.x, p.y);
