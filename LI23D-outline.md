@@ -86,7 +86,7 @@
 * Goal: Implementing the [Snake Game](https://www.google.com/search?q=play+snake)
   * Considerations on the solution's design
   * Basic animation principles: location, velocity and reflection
-  * Live coding session to demonstrate the subjects presented thusfar
+  * Live coding session to demonstrate the subjects presented thus far
 
 ### 01/04/2020 - Design and implementation of interactive applications, continued
 * Goal: Implementing the [Snake Game](https://www.google.com/search?q=play+snake)
@@ -108,7 +108,7 @@ Easter break
   * Concept and motivation
   * [Exceptions in Java](https://docs.oracle.com/javase/tutorial/essential/exceptions/)
     * Checked and unchecked exceptions
-* Live coding session to demonstrate the subjects presented thusfar
+* Live coding session to demonstrate the subjects presented thus far
   * [Snake](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Snake)   
 
 ## Week 9
@@ -120,7 +120,7 @@ Easter break
     * Causes and solutions
     * Dependency inversion
     * The observer pattern, revisited
-* Live coding session to demonstrate the subjects presented thusfar
+* Live coding session to demonstrate the subjects presented thus far
   * [Snake](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Snake)   
 
 ### 22/04/2020 - Practical class
@@ -131,7 +131,7 @@ Easter break
 * Goal: Implementing the [Snake Game](https://www.google.com/search?q=play+snake), continued
 * The [Java Collections framework](https://docs.oracle.com/javase/tutorial/collections/index.html): introduction
   * Sequential and associative containers
-* Live coding session to demonstrate the subjects presented thusfar
+* Live coding session to demonstrate the subjects presented thus far
   * [Snake](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Snake)   
 
 ### 29/04/2020 - Practical class
@@ -147,5 +147,17 @@ Easter break
     * Encapsulation, inheritance and polymorphism
   * The Model-View-Controller pattern, revisited
   * The Observer pattern, revisited
-* Live coding session to demonstrate the subjects presented thusfar
+* Live coding session to demonstrate the subjects presented thus far
   * [Draw](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Draw)   
+
+### 06/05/2020 - Practical class
+* Goal: [Work assignment 1](https://1920moodle.isel.pt/mod/assign/view.php?id=109594)
+
+## Week 12
+### 11/05/2020 - Revisions
+* Goal: Revision of the subjects presented thus far
+* Live coding session
+
+### 13/05/2020 - Revisions
+* Goal: Revision of the subjects presented thus far
+* Live coding session to solve [Work assignment 1](https://1920moodle.isel.pt/mod/assign/view.php?id=109594)
