@@ -161,3 +161,8 @@ Easter break
 ### 13/05/2020 - Revisions
 * Goal: Revision of the subjects presented thus far
 * Live coding session to solve [Work assignment 1](https://1920moodle.isel.pt/mod/assign/view.php?id=109594)
+
+## Week 13
+### 18/05/2020 - Revisions
+* Goal: Revision of the subjects presented thus far
+* Live coding session to solve [Work assignment 1](https://1920moodle.isel.pt/mod/assign/view.php?id=109594)
