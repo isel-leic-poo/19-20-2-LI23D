@@ -14,6 +14,10 @@ import edu.isel.poo.trab1solved.model.Pixel;
 import edu.isel.poo.trab1solved.model.Rectangle;
 import edu.isel.poo.trab1solved.view.DesignView;
 
+/**
+ * Tha application's main activity.
+ * It is the Controller in the MVC.
+ */
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener{
 
     private Figure currentFigure;
@@ -23,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private Figure createFigure(MotionEvent event) {
         RadioGroup group = findViewById(R.id.drawingType);
         // TODO: Can we do differently?
+        // We are breaking the OCP (Open-Closed Principle)
         switch (group.getCheckedRadioButtonId()) {
             case R.id.line:
                 return new Line((int) event.getX(), (int) event.getY());
