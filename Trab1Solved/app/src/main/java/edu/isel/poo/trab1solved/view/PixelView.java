@@ -20,16 +20,13 @@ public class PixelView extends FigureView {
 
     @Override
     public void draw(Canvas canvas, Paint brush) {
-        // TODO: Could we do differently?
-        // Down casts are usually 'code smells'
-        final Pixel pixel = (Pixel) model;
+        // Remember: Down casts are usually 'code smells'
         final float previousStroke = brush.getStrokeWidth();
         brush.setStrokeWidth(10);
         canvas.drawPoint(
-                pixel.getStartPoint().x,
-                pixel.getStartPoint().y,
+                model.getStartPoint().x,
+                model.getStartPoint().y,
                 brush);
         brush.setStrokeWidth(previousStroke);
     }
-
 }

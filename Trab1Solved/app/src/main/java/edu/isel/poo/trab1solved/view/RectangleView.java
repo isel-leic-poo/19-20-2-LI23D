@@ -20,14 +20,12 @@ public class RectangleView extends FigureView {
 
     @Override
     public void draw(Canvas canvas, Paint brush) {
-        // TODO: Could we do differently?
-        // Down casts are usually 'code smells'
-        final Rectangle rectangle = (Rectangle) model;
+        // Remember: Down casts are usually 'code smells'
         canvas.drawRect(
-                rectangle.getStartPoint().x,
-                rectangle.getStartPoint().y,
-                rectangle.getEndPoint().x,
-                rectangle.getEndPoint().y,
+                model.getStartPoint().x,
+                model.getStartPoint().y,
+                model.getEndPoint().x,
+                model.getEndPoint().y,
                 brush);
     }
 

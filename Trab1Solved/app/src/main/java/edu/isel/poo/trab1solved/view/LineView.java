@@ -20,14 +20,12 @@ public class LineView extends FigureView {
 
     @Override
     public void draw(Canvas canvas, Paint brush) {
-        // TODO: Could we do differently?
-        // Down casts are usually 'code smells'
-        final Line line = (Line) model;
+        // Remember: Down casts are usually 'code smells'
         canvas.drawLine(
-                line.getStartPoint().x,
-                line.getStartPoint().y,
-                line.getEndPoint().x,
-                line.getEndPoint().y,
+                model.getStartPoint().x,
+                model.getStartPoint().y,
+                model.getEndPoint().x,
+                model.getEndPoint().y,
                 brush);
     }
 }

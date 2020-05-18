@@ -164,5 +164,19 @@ Easter break
 
 ## Week 13
 ### 18/05/2020 - Revisions
-* Goal: Revision of the subjects presented thus far
+* Goal 1: Revision of the subjects presented thus far
+* Goal 2: Reflection (introduction)
+* Java canonical methods: introduction
+* Java Reflection, introduction
+  * Reflection API: class Class
 * Live coding session to solve [Work assignment 1](https://1920moodle.isel.pt/mod/assign/view.php?id=109594)
+
+### 20/05/2020 - Reflection and Introspection
+* Java Reflection API, [overview](https://docs.oracle.com/javase/tutorial/reflect/index.html)
+  * Concept and motivation
+  * Consequences of its use (trade-offs)
+* Java type system, revisited
+  * Object and its canonical methods
+* Live coding session to solve [Work assignment 1](https://1920moodle.isel.pt/mod/assign/view.php?id=109594)
+  * Applying introspection techniques in the solution
+  

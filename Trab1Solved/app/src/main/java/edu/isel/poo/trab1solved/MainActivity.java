@@ -7,12 +7,20 @@ import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import edu.isel.poo.trab1solved.model.DesignModel;
 import edu.isel.poo.trab1solved.model.Figure;
 import edu.isel.poo.trab1solved.model.Line;
 import edu.isel.poo.trab1solved.model.Pixel;
 import edu.isel.poo.trab1solved.model.Rectangle;
 import edu.isel.poo.trab1solved.view.DesignView;
+import edu.isel.poo.trab1solved.view.FigureView;
+import edu.isel.poo.trab1solved.view.factories.LineViewFactory;
+import edu.isel.poo.trab1solved.view.factories.PixelViewFactory;
+import edu.isel.poo.trab1solved.view.factories.RectangleViewFactory;
+import edu.isel.poo.trab1solved.view.factories.ViewFactory;
 
 /**
  * Tha application's main activity.
@@ -23,6 +31,28 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private Figure currentFigure;
     private DesignModel model;
     private DesignView view;
+
+    private Map<Integer, ViewFactory> factories;
+
+    private Map<Integer, ViewFactory> initFactories() {
+        // We are still violating the OCP principle =P
+        Map<Integer, ViewFactory> viewFactories = new HashMap<>();
+        viewFactories.put(Line.class.hashCode(), new LineViewFactory());
+        viewFactories.put(Rectangle.class.hashCode(), new RectangleViewFactory());
+        viewFactories.put(Pixel.class.hashCode(), new PixelViewFactory());
+        return viewFactories;
+    }
+
+    /**
+     * Creates a view instance for the corresponding figure.
+     * @param figure - the figure for which the view is to be created.
+     * @return The figure view instance that corresponds to the received figure.
+     */
+    private FigureView createFigureView(Figure figure) {
+        ViewFactory factory = factories.get(figure.getClass().hashCode());
+        return factory.createView(figure);
+    }
+
 
     private Figure createFigure(MotionEvent event) {
         RadioGroup group = findViewById(R.id.drawingType);
@@ -48,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         model = new DesignModel();
         view.setModel(model);
         view.setOnTouchListener(this);
+        factories = initFactories();
     }
 
     @Override
@@ -56,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             case MotionEvent.ACTION_DOWN:
                 currentFigure = createFigure(event);
                 model.add(currentFigure);
+                view.addFigureView(createFigureView(currentFigure));
                 view.invalidate();
                 return true;
 
