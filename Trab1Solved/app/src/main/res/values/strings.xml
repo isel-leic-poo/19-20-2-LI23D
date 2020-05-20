@@ -7,4 +7,5 @@
     <string name="rect">Rect</string>
     <string name="pixel">Pixel</string>
     <string name="circle">Circle</string>
+    <string name="file_not_found">Could not find any saved data</string>
 </resources>

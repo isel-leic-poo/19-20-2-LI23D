@@ -25,12 +25,4 @@ public class Point {
         this.x = x;
         this.y = y;
     }
-
-    public Point subtract(Point other) {
-        return new Point(this.x - other.x, this.y - other.y);
-    }
-
-    public int mod() {
-        return (int) Math.sqrt(x * x + y * y);
-    }
 }

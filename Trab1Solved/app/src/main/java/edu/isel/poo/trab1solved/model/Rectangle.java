@@ -1,5 +1,8 @@
 package edu.isel.poo.trab1solved.model;
 
+import java.io.PrintStream;
+import java.util.Scanner;
+
 /**
  * Represents rectangles in a drawing.
  *
@@ -39,5 +42,21 @@ public class Rectangle extends Figure {
     @Override
     public Point getEndPoint() {
         return endPoint;
+    }
+
+    @Override
+    protected void saveSpecificData(PrintStream out) {
+        out.printf("%d %d %d %d", startPoint.x, startPoint.y, endPoint.x, endPoint.y);
+    }
+
+    /**
+     * Loads a rectangle from the given input. This method is called through reflexion.
+     * @param in - The data source.
+     * @return The newly created rectangle.
+     */
+    protected static final Rectangle loadFrom(Scanner in) {
+        Rectangle loadedRectangle = new Rectangle(new Point(in.nextInt(), in.nextInt()));
+        loadedRectangle.endPoint = new Point(in.nextInt(), in.nextInt());
+        return loadedRectangle;
     }
 }

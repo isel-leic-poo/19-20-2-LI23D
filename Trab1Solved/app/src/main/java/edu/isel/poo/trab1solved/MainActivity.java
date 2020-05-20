@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,8 +15,8 @@ import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
-import edu.isel.poo.trab1solved.model.Circle;
 import edu.isel.poo.trab1solved.model.DesignModel;
 import edu.isel.poo.trab1solved.model.Figure;
 import edu.isel.poo.trab1solved.model.Point;
@@ -33,6 +34,7 @@ import edu.isel.poo.trab1solved.view.FigureView;
  */
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener{
 
+    private static final String SAVE_STATE = "SAVE_STATE.txt";
     private Figure currentFigure;
     private DesignModel model;
     private DesignView view;
@@ -62,9 +64,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             return (FigureView) constructor.newInstance(figure);
         } catch (Exception bug) {
             Log.e("BUG", bug.toString());
-            bug.printStackTrace();
+            throw new RuntimeException("There is a bug here. Fix me!");
         }
-        throw new Error("THE END IS NEAR. The Anti-christ has arrived");
     }
 
     private Figure createFigure(MotionEvent event) {
@@ -81,24 +82,37 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
         view = findViewById(R.id.designView);
         model = new DesignModel();
-        view.setModel(model);
         view.setOnTouchListener(this);
         figureFactories = initFigureFactories();
         findViewById(R.id.resetButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 model = new DesignModel();
-                view.setModel(model);
+                view.clear();
             }
         });
 
         findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try (PrintStream out = new PrintStream(openFileOutput("SAVE_STATE.txt", MODE_PRIVATE))) {
+                try (PrintStream out = new PrintStream(openFileOutput(SAVE_STATE, MODE_PRIVATE))) {
                     model.save(out);
                 } catch (IOException e) {
                     e.printStackTrace();
+                }
+            }
+        });
+
+        findViewById(R.id.loadButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try (Scanner in = new Scanner(openFileInput(SAVE_STATE))) {
+                    model = DesignModel.load(in);
+                    view.clear();
+                    for (Figure figure : model)
+                        view.addFigureView(createFigureViewWithSteroids(figure));
+                } catch (FileNotFoundException noFile) {
+                    Toast.makeText(MainActivity.this, R.string.file_not_found, Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -111,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 currentFigure = createFigure(event);
                 model.add(currentFigure);
                 view.addFigureView(createFigureViewWithSteroids(currentFigure));
-                view.invalidate();
                 return true;
 
             case MotionEvent.ACTION_MOVE:

@@ -1,6 +1,10 @@
 package edu.isel.poo.trab1solved.model;
 
+import android.util.Log;
+
 import java.io.PrintStream;
+import java.lang.reflect.Method;
+import java.util.Scanner;
 
 /**
  * Base class that captures the similarities between figures.
@@ -10,6 +14,20 @@ import java.io.PrintStream;
  * user specified that the figure should end.
  */
 public abstract class Figure {
+
+    public static Figure load(Scanner in) {
+        try {
+            String className = in.next();
+            Class figureType = Class.forName("edu.isel.poo.trab1solved.model." + className);
+            Method loadMethod = figureType.getDeclaredMethod("loadFrom", Scanner.class);
+            Figure loadedFigure = (Figure) loadMethod.invoke(null, in);
+            in.nextLine();
+            return loadedFigure;
+        } catch (Exception bug) {
+            Log.e("BUG", bug.toString());
+            throw new RuntimeException("There is a bug here. Fix me!");
+        }
+    }
 
     /**
      * All figures have an initial point.
@@ -56,4 +74,21 @@ public abstract class Figure {
      * @param point - the point.
      */
     public abstract void setEndPoint(Point point);
+
+    /**
+     * Saves the figure data to the given stream.
+     * The figure data ocupies exactly one line of text, starting with the class name.
+     * @param out - The stream where the data is to be saved to.
+     */
+    public final void save(PrintStream out) {
+        out.print(getClass().getSimpleName() + " ");
+        saveSpecificData(out);
+        out.println();
+    }
+
+    /**
+     * Saves the figure's specific data.
+     * @param out - The stream where the data is to be saved to.
+     */
+    protected abstract void saveSpecificData(PrintStream out);
 }
