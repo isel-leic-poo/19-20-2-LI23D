@@ -1,5 +1,7 @@
 package edu.isel.poo.trab1solved.model;
 
+import java.io.PrintStream;
+
 /**
  * Base class that captures the similarities between figures.
  *
@@ -54,5 +56,4 @@ public abstract class Figure {
      * @param point - the point.
      */
     public abstract void setEndPoint(Point point);
-
 }

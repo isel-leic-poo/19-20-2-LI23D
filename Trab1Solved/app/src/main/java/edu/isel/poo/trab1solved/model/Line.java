@@ -18,7 +18,6 @@ public class Line extends Figure {
      */
     public Line(int x, int y) {
         this(new Point(x, y));
-        endPoint = startPoint;
     }
 
     /**
@@ -27,6 +26,7 @@ public class Line extends Figure {
      */
     public Line(Point start) {
         super(start);
+        endPoint = startPoint;
     }
 
     @Override

@@ -2,6 +2,7 @@ package edu.isel.poo.trab1solved.model;
 
 import androidx.annotation.NonNull;
 
+import java.io.PrintStream;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -35,5 +36,12 @@ public class DesignModel implements Iterable<Figure> {
     @Override
     public Iterator<Figure> iterator() {
         return figures.iterator();
+    }
+
+    public void save(PrintStream out) {
+        for (Figure figure : figures) {
+            // TODO:
+            // figure.save(out);
+        }
     }
 }

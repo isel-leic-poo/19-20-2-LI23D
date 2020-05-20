@@ -1,26 +1,31 @@
 package edu.isel.poo.trab1solved;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RadioGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.isel.poo.trab1solved.model.Circle;
 import edu.isel.poo.trab1solved.model.DesignModel;
 import edu.isel.poo.trab1solved.model.Figure;
-import edu.isel.poo.trab1solved.model.Line;
-import edu.isel.poo.trab1solved.model.Pixel;
-import edu.isel.poo.trab1solved.model.Rectangle;
+import edu.isel.poo.trab1solved.model.Point;
+import edu.isel.poo.trab1solved.model.factories.CircleFactory;
+import edu.isel.poo.trab1solved.model.factories.FigureFactory;
+import edu.isel.poo.trab1solved.model.factories.LineFactory;
+import edu.isel.poo.trab1solved.model.factories.PixelFactory;
+import edu.isel.poo.trab1solved.model.factories.RectangleFactory;
 import edu.isel.poo.trab1solved.view.DesignView;
 import edu.isel.poo.trab1solved.view.FigureView;
-import edu.isel.poo.trab1solved.view.factories.LineViewFactory;
-import edu.isel.poo.trab1solved.view.factories.PixelViewFactory;
-import edu.isel.poo.trab1solved.view.factories.RectangleViewFactory;
-import edu.isel.poo.trab1solved.view.factories.ViewFactory;
 
 /**
  * Tha application's main activity.
@@ -32,15 +37,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private DesignModel model;
     private DesignView view;
 
-    private Map<Integer, ViewFactory> factories;
+    private Map<Integer, FigureFactory> figureFactories;
 
-    private Map<Integer, ViewFactory> initFactories() {
-        // We are still violating the OCP principle =P
-        Map<Integer, ViewFactory> viewFactories = new HashMap<>();
-        viewFactories.put(Line.class.hashCode(), new LineViewFactory());
-        viewFactories.put(Rectangle.class.hashCode(), new RectangleViewFactory());
-        viewFactories.put(Pixel.class.hashCode(), new PixelViewFactory());
-        return viewFactories;
+    private Map<Integer, FigureFactory> initFigureFactories() {
+        Map<Integer, FigureFactory> figureFactories = new HashMap<>();
+        figureFactories.put(R.id.line, new LineFactory());
+        figureFactories.put(R.id.pixel, new PixelFactory());
+        figureFactories.put(R.id.rect, new RectangleFactory());
+        figureFactories.put(R.id.circle, new CircleFactory());
+        return figureFactories;
     }
 
     /**
@@ -48,25 +53,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
      * @param figure - the figure for which the view is to be created.
      * @return The figure view instance that corresponds to the received figure.
      */
-    private FigureView createFigureView(Figure figure) {
-        ViewFactory factory = factories.get(figure.getClass().hashCode());
-        return factory.createView(figure);
+    private FigureView createFigureViewWithSteroids(Figure figure) {
+        try {
+            String viewTypeName = "edu.isel.poo.trab1solved.view." +
+                    figure.getClass().getSimpleName() + "View";
+            Class viewType = Class.forName(viewTypeName);
+            Constructor constructor = viewType.getConstructor(figure.getClass());
+            return (FigureView) constructor.newInstance(figure);
+        } catch (Exception bug) {
+            Log.e("BUG", bug.toString());
+            bug.printStackTrace();
+        }
+        throw new Error("THE END IS NEAR. The Anti-christ has arrived");
     }
-
 
     private Figure createFigure(MotionEvent event) {
         RadioGroup group = findViewById(R.id.drawingType);
-        // TODO: Can we do differently?
-        // We are breaking the OCP (Open-Closed Principle)
-        switch (group.getCheckedRadioButtonId()) {
-            case R.id.line:
-                return new Line((int) event.getX(), (int) event.getY());
-            case R.id.pixel:
-                return new Pixel((int) event.getX(), (int) event.getY());
-            case R.id.rect:
-                return new Rectangle((int) event.getX(), (int) event.getY());
-        }
-        return null;
+        // We are STILL breaking the OCP (Open-Closed Principle)
+        FigureFactory factory = figureFactories.get(group.getCheckedRadioButtonId());
+        return factory.createFigure(new Point((int) event.getX(), (int) event.getY()));
     }
 
     @Override
@@ -78,7 +83,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         model = new DesignModel();
         view.setModel(model);
         view.setOnTouchListener(this);
-        factories = initFactories();
+        figureFactories = initFigureFactories();
+        findViewById(R.id.resetButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                model = new DesignModel();
+                view.setModel(model);
+            }
+        });
+
+        findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try (PrintStream out = new PrintStream(openFileOutput("SAVE_STATE.txt", MODE_PRIVATE))) {
+                    model.save(out);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -87,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             case MotionEvent.ACTION_DOWN:
                 currentFigure = createFigure(event);
                 model.add(currentFigure);
-                view.addFigureView(createFigureView(currentFigure));
+                view.addFigureView(createFigureViewWithSteroids(currentFigure));
                 view.invalidate();
                 return true;
 

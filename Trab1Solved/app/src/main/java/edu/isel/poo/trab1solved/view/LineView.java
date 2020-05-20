@@ -3,6 +3,7 @@ package edu.isel.poo.trab1solved.view;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import edu.isel.poo.trab1solved.model.Figure;
 import edu.isel.poo.trab1solved.model.Line;
 
 /**

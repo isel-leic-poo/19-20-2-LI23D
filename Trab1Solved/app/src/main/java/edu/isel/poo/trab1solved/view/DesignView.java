@@ -53,6 +53,8 @@ public final class DesignView extends View {
      */
     public void setModel(DesignModel model) {
         this.model = model;
+        views.clear();
+        this.invalidate();
     }
 
     @Override
