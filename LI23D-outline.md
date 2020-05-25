@@ -180,3 +180,11 @@ Easter break
 * Live coding session to solve [Work assignment 1](https://1920moodle.isel.pt/mod/assign/view.php?id=109594)
   * Applying introspection techniques in the solution
   
+## Week 14
+### 25/05/2020 - Exercises
+* Goal: Consolidation of the subjects addressed in the course
+* Live coding session to demonstrate the presented subjects
+  * [Snake](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Snake)   
+
+### 27/04/2020 - Practical class
+* Goal: [Work assignment 2]()
