@@ -1,6 +1,7 @@
 package edu.isel.adeetc.snake.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents the snake in the game with the same name.
@@ -12,6 +13,7 @@ public class Snake extends BoardElement {
      */
     interface MovementListener {
         void snakeHasMoved(Location oldPosition, Location newPosition);
+        void snakeHasMoved(List<Location> affectedPositions);
     }
 
     private int arenaWidth, arenaHeight;
@@ -19,6 +21,7 @@ public class Snake extends BoardElement {
     private boolean isDead;
 
     private ArrayList<MovementListener> listeners;
+    private SnakePart tail;
 
     /**
      * Checks whether the snake can move in the given direction.
@@ -47,8 +50,11 @@ public class Snake extends BoardElement {
         if (isDead)
             throw new IllegalStateException();
         if (canMove(currentDirection)) {
+            if (tail == null) tail = new SnakePart(position);
+            else tail.setPosition(position);
             Location oldPosition = position;
             position = position.add(currentDirection);
+
             for (MovementListener listener : listeners) {
                 listener.snakeHasMoved(oldPosition, position);
             }

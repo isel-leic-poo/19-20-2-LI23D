@@ -12,8 +12,6 @@ import androidx.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 
-import edu.isel.poo.trab1solved.model.DesignModel;
-
 /**
  * Represents the view used to display the drawing: The View in the MVC.
  */
