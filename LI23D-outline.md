@@ -186,5 +186,5 @@ Easter break
 * Live coding session to demonstrate the presented subjects
   * [Snake](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Snake)   
 
-### 27/04/2020 - Practical class
-* Goal: [Work assignment 2]()
+### 27/05/2020 - Practical class
+* Goal: [Work assignment 2](https://1920moodle.isel.pt/mod/assign/view.php?id=113816)
