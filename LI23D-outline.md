@@ -198,3 +198,14 @@ Easter break
 ### 03/06/2020 - Practical class
 * Goal: [Work assignment 2](https://1920moodle.isel.pt/mod/assign/view.php?id=113816)
 
+## Week 16
+No classes during this week
+
+## Week 17
+### 15/06/2020 - Conclusion
+* Final considerations regarding the course and the addressed subjects
+* Presentation of the final implementation of the Snake game, developped during the semester
+  * [Snake](https://github.com/isel-leic-poo/19-20-2-LI23D/tree/master/Snake)   
+
+### 17/06/2020 - Practical class
+* Goal: [Work assignment 2](https://1920moodle.isel.pt/mod/assign/view.php?id=113816)
