@@ -3,17 +3,18 @@ package edu.isel.adeetc.snake.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import static edu.isel.adeetc.snake.utils.CollectionUtils.listOf;
+
 /**
  * Represents the snake in the game with the same name.
  */
-public class Snake extends BoardElement {
+public class Snake extends SnakePart {
 
     /**
      * Contract to be supported by snake movement listeners.
      */
     interface MovementListener {
-        void snakeHasMoved(Location oldPosition, Location newPosition);
-        void snakeHasMoved(List<Location> affectedPositions);
+        void snakeHasMoved(List<SnakePart> affectedParts, List<Location> vacated);
     }
 
     private int arenaWidth, arenaHeight;
@@ -49,14 +50,21 @@ public class Snake extends BoardElement {
     public void move() {
         if (isDead)
             throw new IllegalStateException();
-        if (canMove(currentDirection)) {
-            if (tail == null) tail = new SnakePart(position);
-            else tail.setPosition(position);
-            Location oldPosition = position;
-            position = position.add(currentDirection);
 
+        if (canMove(currentDirection)) {
+            final List<Location> vacatedPositions = listOf();
+            if (tail == null) {
+                tail = new SnakePart(position);
+            }
+            else {
+                vacatedPositions.add(tail.getPosition());
+                tail.setPosition(position);
+            }
+
+            position = position.add(currentDirection);
+            final List<SnakePart> movedParts = listOf(this, tail);
             for (MovementListener listener : listeners) {
-                listener.snakeHasMoved(oldPosition, position);
+                listener.snakeHasMoved(movedParts, vacatedPositions);
             }
         }
         else isDead = true;

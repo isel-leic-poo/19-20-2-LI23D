@@ -1,5 +1,6 @@
 package edu.isel.adeetc.snake.model;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -41,12 +42,9 @@ public class Board {
         elements[0][0] = snake;
     }
 
-    private void fireChangeEvent(Location oldPosition, Location newPosition) {
-        List<Location> changedPositions = new LinkedList<>();
-        changedPositions.add(oldPosition);
-        changedPositions.add(newPosition);
+    private void fireChangeEvent(List<Location> changedList) {
         for (ChangeListener listener : listeners) {
-            listener.onChanged(changedPositions);
+            listener.onChanged(changedList);
         }
     }
 
@@ -59,17 +57,25 @@ public class Board {
         arenaWidth = width;
         arenaHeight = height;
         elements = new BoardElement[width][height];
+        listeners = new LinkedList<>();
         initSnake();
         initApple();
         snake.addMovementListener(new Snake.MovementListener() {
             @Override
-            public void snakeHasMoved(Location oldPosition, Location newPosition) {
-                elements[oldPosition.x][oldPosition.y] = null;
-                elements[newPosition.x][newPosition.y] = snake;
-                fireChangeEvent(oldPosition, newPosition);
+            public void snakeHasMoved(List<SnakePart> affectedParts, List<Location> vacated) {
+                final List<Location> changedList = new ArrayList<>();
+                for (Location location : vacated) {
+                    elements[location.x][location.y] = null;
+                    changedList.add(location);
+                }
+                for (SnakePart snakePart : affectedParts) {
+                    elements[snakePart.getPosition().x][snakePart.getPosition().y] = snakePart;
+                    changedList.add(snakePart.getPosition());
+                }
+
+                fireChangeEvent(changedList);
             }
         });
-        listeners = new LinkedList<>();
     }
     /**
      * Gets the board element at the given position

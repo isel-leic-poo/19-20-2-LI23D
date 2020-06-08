@@ -7,6 +7,7 @@ import edu.isel.adeetc.snake.model.Board;
 import edu.isel.adeetc.snake.model.BoardElement;
 import edu.isel.adeetc.snake.model.Location;
 import edu.isel.adeetc.snake.model.Snake;
+import edu.isel.adeetc.snake.model.SnakePart;
 import pt.isel.poo.tile.Tile;
 import pt.isel.poo.tile.TilePanel;
 
@@ -23,6 +24,8 @@ public class BoardView {
         Tile tile = null;
         if (element instanceof Snake)
             tile = new SnakeHeadTile();
+        else if (element instanceof SnakePart)
+            tile = new SnakePartTile();
         else if (element instanceof Apple)
             tile = new AppleTile();
 
