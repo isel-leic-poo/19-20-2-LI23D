@@ -1,6 +1,7 @@
 package edu.isel.adeetc.snake.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static edu.isel.adeetc.snake.utils.CollectionUtils.listOf;
@@ -9,6 +10,8 @@ import static edu.isel.adeetc.snake.utils.CollectionUtils.listOf;
  * Represents the snake in the game with the same name.
  */
 public class Snake extends SnakePart {
+
+    private static final int INITIAL_SNAKE_SIZE = 4;
 
     /**
      * Contract to be supported by snake movement listeners.
@@ -21,8 +24,64 @@ public class Snake extends SnakePart {
     private Direction currentDirection;
     private boolean isDead;
 
-    private ArrayList<MovementListener> listeners;
-    private SnakePart tail;
+    private List<MovementListener> listeners;
+
+    // The list of snake parts
+    private LinkedList<SnakePart> body;
+    // The snake actual size. If the value is different from the current number of snake parts
+    // (+1, the head) then the snake is growing
+    private int targetSize;
+
+    public Snake(Location position, Direction initialDirection, int arenaWidth, int arenaHeight, Board board) {
+        super(position);
+        this.arenaWidth = arenaWidth;
+        this.arenaHeight = arenaHeight;
+        this.currentDirection = initialDirection;
+        this.isDead = false;
+        this.targetSize = INITIAL_SNAKE_SIZE;
+        this.listeners = new ArrayList<>();
+        this.body = new LinkedList<>();
+    }
+
+    /**
+     * Moves the snake in the direction it is currently moving.
+     */
+    public void move() {
+        if (isDead())
+            throw new IllegalStateException();
+
+        if (canMove(currentDirection)) {
+
+            final List<Location> vacatedPositions = listOf();
+            final List<SnakePart> movedParts = listOf();
+
+            SnakePart movedPart;
+            if (shouldGrow()) {
+                movedPart = new SnakePart(position);
+            } else {
+                movedPart = body.removeLast();
+                vacatedPositions.add(movedPart.getPosition());
+                movedPart.setPosition(position);
+            }
+
+            body.addFirst(movedPart);
+            movedParts.add(movedPart);
+            position = position.add(currentDirection);
+            movedParts.add(this);
+            for (MovementListener listener : listeners) {
+                listener.snakeHasMoved(movedParts, vacatedPositions);
+            }
+        }
+        else isDead = true;
+    }
+
+    /**
+     * Gets a boolean value indicating whether the snake is dead or not.
+     * @return true if the snake is dead, false otherwise.
+     */
+    public boolean isDead() {
+        return isDead;
+    }
 
     /**
      * Checks whether the snake can move in the given direction.
@@ -35,39 +94,12 @@ public class Snake extends SnakePart {
                 newLocation.y >= 0 && newLocation.y < arenaHeight;
     }
 
-    public Snake(Location position, Direction initialDirection, int arenaWidth, int arenaHeight, Board board) {
-        super(position);
-        this.arenaWidth = arenaWidth;
-        this.arenaHeight = arenaHeight;
-        this.currentDirection = initialDirection;
-        this.isDead = false;
-        this.listeners = new ArrayList<>();
-    }
-
     /**
-     * Moves the snake in the direction it is currently moving.
+     * Checks whether the snake should grow or not.
+     * @return  A boolean value indicating if the snake should grow.
      */
-    public void move() {
-        if (isDead)
-            throw new IllegalStateException();
-
-        if (canMove(currentDirection)) {
-            final List<Location> vacatedPositions = listOf();
-            if (tail == null) {
-                tail = new SnakePart(position);
-            }
-            else {
-                vacatedPositions.add(tail.getPosition());
-                tail.setPosition(position);
-            }
-
-            position = position.add(currentDirection);
-            final List<SnakePart> movedParts = listOf(this, tail);
-            for (MovementListener listener : listeners) {
-                listener.snakeHasMoved(movedParts, vacatedPositions);
-            }
-        }
-        else isDead = true;
+    private boolean shouldGrow() {
+        return targetSize != body.size() + 1;
     }
 
     public Location getHeadLocation() {
@@ -80,14 +112,6 @@ public class Snake extends SnakePart {
      */
     public void changeDirection(Direction newDirection) {
         currentDirection = newDirection;
-    }
-
-    /**
-     * Gets a boolean value indicating whether the snake is dead or not.
-     * @return true if the snake is dead, false otherwise.
-     */
-    public boolean isDead() {
-        return isDead;
     }
 
     /**
