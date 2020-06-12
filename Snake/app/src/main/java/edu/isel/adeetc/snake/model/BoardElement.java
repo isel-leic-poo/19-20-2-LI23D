@@ -25,4 +25,15 @@ public abstract class BoardElement {
     public Location getPosition() {
         return position;
     }
+
+    /**
+     * Gets the result of a collision with this element.
+     * @return  the collision result.
+     */
+    public abstract CollisionResult collide();
+
+    /**
+     * Used to represent the result of collisions.
+     */
+    enum CollisionResult { OK, GROW, DIE }
 }

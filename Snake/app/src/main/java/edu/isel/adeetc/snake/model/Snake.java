@@ -15,11 +15,6 @@ public class Snake extends SnakePart {
     private static final int SNAKE_GROWTH_RATE = 4;
 
     /**
-     * Used to represent the result of a snake movement.
-     */
-    private enum MovementResult { OK, GROW, DIE }
-
-    /**
      * Contract to be supported by snake movement listeners.
      */
     interface MovementListener {
@@ -72,8 +67,8 @@ public class Snake extends SnakePart {
         if (isDead())
             throw new IllegalStateException();
 
-        final MovementResult result = tryMove(currentDirection);
-        if (result == MovementResult.DIE) {
+        final CollisionResult result = tryMove(currentDirection);
+        if (result == CollisionResult.DIE) {
             isDead = true;
             return;
         }
@@ -98,7 +93,7 @@ public class Snake extends SnakePart {
             listener.snakeHasMoved(movedParts, vacatedPositions);
         }
 
-        if (result == MovementResult.GROW)
+        if (result == CollisionResult.GROW)
             growBy(SNAKE_GROWTH_RATE);
     }
 
@@ -115,11 +110,11 @@ public class Snake extends SnakePart {
      * @param direction The direction to where the movement is to take place.
      * @return true if the move can be made, false otherwise.
      */
-    private MovementResult tryMove(Direction direction) {
+    private CollisionResult tryMove(Direction direction) {
         final Location newLocation = position.add(direction);
         return (newLocation.x >= 0 && newLocation.x < arenaWidth &&
                 newLocation.y >= 0 && newLocation.y < arenaHeight) ?
-            detectCollisionAt(newLocation) : MovementResult.DIE;
+            detectCollisionAt(newLocation) : CollisionResult.DIE;
     }
 
     /**
@@ -128,17 +123,9 @@ public class Snake extends SnakePart {
      * @param location  - the location where a collision is to be verified.
      * @return  The collision consequence.
      */
-    private MovementResult detectCollisionAt(Location location) {
+    private CollisionResult detectCollisionAt(Location location) {
         final BoardElement elementAtDestination = board.getElementAt(location.x, location.y);
-
-        // TODO: use polymorphism to address this
-        if (elementAtDestination instanceof Apple)
-            return MovementResult.GROW;
-
-        if (elementAtDestination instanceof SnakePart)
-            return MovementResult.DIE;
-
-        return MovementResult.OK;
+        return elementAtDestination != null ? elementAtDestination.collide() : CollisionResult.OK;
     }
 
     /**

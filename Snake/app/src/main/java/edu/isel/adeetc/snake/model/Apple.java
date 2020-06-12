@@ -12,4 +12,9 @@ public class Apple extends BoardElement {
     public Apple(Location location) {
         super(location);
     }
+
+    @Override
+    public CollisionResult collide() {
+        return CollisionResult.GROW;
+    }
 }

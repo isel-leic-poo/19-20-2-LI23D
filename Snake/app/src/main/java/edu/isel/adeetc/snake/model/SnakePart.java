@@ -11,6 +11,11 @@ public class SnakePart extends BoardElement {
         super(position);
     }
 
+    @Override
+    public CollisionResult collide() {
+        return CollisionResult.DIE;
+    }
+
     public void setPosition(Location position) {
         this.position = position;
     }
