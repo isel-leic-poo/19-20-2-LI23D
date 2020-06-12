@@ -38,7 +38,7 @@ public class Board {
     }
 
     private void initSnake() {
-        snake = new Snake(new Location(0, 0), Direction.SOUTH, arenaWidth, arenaHeight, this);
+        snake = new Snake(new Location(0, 0), Direction.SOUTH, this);
         elements[0][0] = snake;
     }
 

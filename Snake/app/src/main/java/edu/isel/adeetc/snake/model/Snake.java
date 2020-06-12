@@ -12,6 +12,12 @@ import static edu.isel.adeetc.snake.utils.CollectionUtils.listOf;
 public class Snake extends SnakePart {
 
     private static final int INITIAL_SNAKE_SIZE = 4;
+    private static final int SNAKE_GROWTH_RATE = 4;
+
+    /**
+     * Used to represent the result of a snake movement.
+     */
+    private enum MovementResult { OK, GROW, DIE }
 
     /**
      * Contract to be supported by snake movement listeners.
@@ -23,6 +29,7 @@ public class Snake extends SnakePart {
     private int arenaWidth, arenaHeight;
     private Direction currentDirection;
     private boolean isDead;
+    private Board board;
 
     private List<MovementListener> listeners;
 
@@ -32,17 +39,28 @@ public class Snake extends SnakePart {
     // (+1, the head) then the snake is growing
     private int targetSize;
 
-    public Snake(Location position, Direction initialDirection, int arenaWidth, int arenaHeight, Board board) {
+    /**
+     * Initiates a Snake instance.
+     * @param position          - the initial snake coordinates.
+     * @param initialDirection  - the initial movement direction.
+     * @param board             - the board where the snake is.
+     */
+    public Snake(Location position, Direction initialDirection, Board board) {
         super(position);
-        this.arenaWidth = arenaWidth;
-        this.arenaHeight = arenaHeight;
+        this.arenaWidth = board.arenaWidth;
+        this.arenaHeight = board.arenaHeight;
         this.currentDirection = initialDirection;
         this.isDead = false;
         this.targetSize = INITIAL_SNAKE_SIZE;
         this.listeners = new ArrayList<>();
         this.body = new LinkedList<>();
+        this.board = board;
     }
 
+    /**
+     * Gets the direction in which the snake is moving
+     * @return  the snake's movement direction
+     */
     public Direction getDirection() {
         return currentDirection;
     }
@@ -54,29 +72,34 @@ public class Snake extends SnakePart {
         if (isDead())
             throw new IllegalStateException();
 
-        if (canMove(currentDirection)) {
-
-            final List<Location> vacatedPositions = listOf();
-            final List<SnakePart> movedParts = listOf();
-
-            SnakePart movedPart;
-            if (shouldGrow()) {
-                movedPart = new SnakePart(position);
-            } else {
-                movedPart = body.removeLast();
-                vacatedPositions.add(movedPart.getPosition());
-                movedPart.setPosition(position);
-            }
-
-            body.addFirst(movedPart);
-            movedParts.add(movedPart);
-            position = position.add(currentDirection);
-            movedParts.add(this);
-            for (MovementListener listener : listeners) {
-                listener.snakeHasMoved(movedParts, vacatedPositions);
-            }
+        final MovementResult result = tryMove(currentDirection);
+        if (result == MovementResult.DIE) {
+            isDead = true;
+            return;
         }
-        else isDead = true;
+
+        final List<Location> vacatedPositions = listOf();
+        final List<SnakePart> movedParts = listOf();
+
+        SnakePart movedPart;
+        if (shouldGrow()) {
+            movedPart = new SnakePart(position);
+        } else {
+            movedPart = body.removeLast();
+            vacatedPositions.add(movedPart.getPosition());
+            movedPart.setPosition(position);
+        }
+
+        body.addFirst(movedPart);
+        movedParts.add(movedPart);
+        position = position.add(currentDirection);
+        movedParts.add(this);
+        for (MovementListener listener : listeners) {
+            listener.snakeHasMoved(movedParts, vacatedPositions);
+        }
+
+        if (result == MovementResult.GROW)
+            growBy(SNAKE_GROWTH_RATE);
     }
 
     /**
@@ -92,10 +115,30 @@ public class Snake extends SnakePart {
      * @param direction The direction to where the movement is to take place.
      * @return true if the move can be made, false otherwise.
      */
-    private boolean canMove(Direction direction) {
+    private MovementResult tryMove(Direction direction) {
         final Location newLocation = position.add(direction);
-        return newLocation.x >= 0 && newLocation.x < arenaWidth &&
-                newLocation.y >= 0 && newLocation.y < arenaHeight;
+        return (newLocation.x >= 0 && newLocation.x < arenaWidth &&
+                newLocation.y >= 0 && newLocation.y < arenaHeight) ?
+            detectCollisionAt(newLocation) : MovementResult.DIE;
+    }
+
+    /**
+     * Method that checks if a collision will occur at the specified location, returning the
+     * collision consequence.
+     * @param location  - the location where a collision is to be verified.
+     * @return  The collision consequence.
+     */
+    private MovementResult detectCollisionAt(Location location) {
+        final BoardElement elementAtDestination = board.getElementAt(location.x, location.y);
+
+        // TODO: use polymorphism to address this
+        if (elementAtDestination instanceof Apple)
+            return MovementResult.GROW;
+
+        if (elementAtDestination instanceof SnakePart)
+            return MovementResult.DIE;
+
+        return MovementResult.OK;
     }
 
     /**
@@ -106,8 +149,11 @@ public class Snake extends SnakePart {
         return targetSize != body.size() + 1;
     }
 
-    public Location getHeadLocation() {
-        return getPosition();
+    /**
+     * Makes the snake grow by the given ammount.
+     */
+    private void growBy(int addedSize) {
+        targetSize += addedSize;
     }
 
     /**
@@ -133,5 +179,4 @@ public class Snake extends SnakePart {
     public void removeMovementListener(MovementListener listener) {
         listeners.remove(listener);
     }
-
 }
