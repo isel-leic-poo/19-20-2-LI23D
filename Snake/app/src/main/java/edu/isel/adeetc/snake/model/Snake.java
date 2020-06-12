@@ -43,6 +43,10 @@ public class Snake extends SnakePart {
         this.body = new LinkedList<>();
     }
 
+    public Direction getDirection() {
+        return currentDirection;
+    }
+
     /**
      * Moves the snake in the direction it is currently moving.
      */

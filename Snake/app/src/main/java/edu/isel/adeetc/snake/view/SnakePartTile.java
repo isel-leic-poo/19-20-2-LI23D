@@ -16,12 +16,12 @@ class SnakePartTile implements Tile {
     public SnakePartTile() {
         brush = new Paint();
         brush.setStyle(Paint.Style.FILL_AND_STROKE);
-        brush.setColor(Color.GREEN);
+        brush.setColor(Color.rgb(122, 186, 48));
     }
 
     @Override
     public void draw(Canvas canvas, int side) {
-        canvas.drawCircle(side /  2, side /  2, side/2 - 4, brush);
+        canvas.drawCircle(side /  2, side /  2, side/2 - 12, brush);
     }
 
     @Override

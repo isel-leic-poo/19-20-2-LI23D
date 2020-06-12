@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F1EFEF"
     tools:context=".MainActivity">
 
     <pt.isel.poo.tile.TilePanel
@@ -13,7 +14,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="8dp"
-        app:gridLine="1"
+        android:background="#FFFFFF"
+        app:gridLine="0"
         app:heightTiles="15"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

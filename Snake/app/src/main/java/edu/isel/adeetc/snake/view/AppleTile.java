@@ -1,9 +1,12 @@
 package edu.isel.adeetc.snake.view;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import edu.isel.adeetc.snake.R;
+import pt.isel.poo.tile.Img;
 import pt.isel.poo.tile.Tile;
 
 /**
@@ -12,16 +15,18 @@ import pt.isel.poo.tile.Tile;
 class AppleTile implements Tile {
 
     private final Paint brush;
+    private final Img image;
 
-    public AppleTile() {
+    public AppleTile(Context context) {
         brush = new Paint();
         brush.setStyle(Paint.Style.FILL_AND_STROKE);
         brush.setColor(Color.RED);
+        image = new Img(context, R.mipmap.red_apple);
     }
 
     @Override
     public void draw(Canvas canvas, int side) {
-        canvas.drawCircle(side / 2f, side / 2f, (side / 2f) -4, brush);
+        image.draw(canvas, side, side, brush);
     }
 
     @Override

@@ -19,16 +19,23 @@ public class BoardView {
     private final TilePanel panel;
     private final Board board;
 
-    private void updatePosition(Location position) {
-        final BoardElement element = board.getElementAt(position.x, position.y);
-        Tile tile = null;
-        if (element instanceof Snake)
-            tile = new SnakeHeadTile();
-        else if (element instanceof SnakePart)
-            tile = new SnakePartTile();
-        else if (element instanceof Apple)
-            tile = new AppleTile();
+    /**
+     * Creates the tile used to display the given board element.
+     * @param boardElement  - the board element to be displayed
+     * @return the newly created tile or null if it's an unknown board element
+     */
+    private Tile createTile(BoardElement boardElement) {
+        if (boardElement instanceof Snake)
+            return new SnakeHeadTile(panel.getContext(), (Snake) boardElement);
+        else if (boardElement instanceof SnakePart)
+            return new SnakePartTile();
+        else if (boardElement instanceof Apple)
+            return new AppleTile(panel.getContext());
+        return null;
+    }
 
+    private void updatePosition(Location position) {
+        final Tile tile = createTile(board.getElementAt(position.x, position.y));
         panel.setTile(position.x, position.y, tile);
     }
 
